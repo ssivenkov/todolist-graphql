@@ -1,0 +1,7 @@
+mutation AddTodo($title: String!, $userId: ID!, $completed: Boolean!) {
+  newTodo: createTodo(title:$title, user_id: $userId, completed: $completed) {
+    id
+    title
+    completed
+  }
+}

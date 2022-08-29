@@ -1,0 +1,7 @@
+query AllTodos {
+  todos: allTodos {
+    id
+    title
+    completed
+  }
+}
