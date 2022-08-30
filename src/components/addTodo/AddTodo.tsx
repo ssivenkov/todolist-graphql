@@ -1,26 +1,16 @@
 import { useState } from 'react';
 
 import { AllTodosDocument, useAddTodoMutation } from 'generated/schema';
+import { nanoid } from 'nanoid';
 
 export const AddTodo = () => {
   const [text, setText] = useState('');
 
   const [addTodo, { error, loading }] = useAddTodoMutation({
-    update(cache, { data }) {
-      /*const cachedAllTodosData = cache.readQuery<AllTodosQuery>({
-        query: AllTodosDocument,
-      });*/
-
-      cache.writeQuery({
-        query: AllTodosDocument,
-        data: {
-          todos: {
-            merge(existing = []) {
-              return [data?.newTodo, ...existing];
-            },
-          },
-        },
-      });
+    update(cache, { data: newTodoData }) {
+      cache.updateQuery({ query: AllTodosDocument }, (data) => ({
+        todos: [newTodoData?.newTodo, ...data.todos],
+      }));
     },
   });
 
@@ -30,7 +20,7 @@ export const AddTodo = () => {
         variables: {
           title: text,
           completed: false,
-          userId: '123',
+          userId: nanoid(),
         },
       });
       setText('');

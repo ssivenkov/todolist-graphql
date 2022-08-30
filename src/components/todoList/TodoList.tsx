@@ -4,7 +4,7 @@ import {
   AllTodosQuery,
   useAllTodosQuery,
   useDeleteTodoMutation,
-  useUpdateTodoMutation,
+  useUpdateTodoStatusMutation,
 } from 'generated/schema';
 
 import { StyledTodoListsContainer } from './styles';
@@ -12,30 +12,17 @@ import { StyledTodoListsContainer } from './styles';
 export const TodoList = () => {
   const { loading, error, data } = useAllTodosQuery();
 
-  const [toggleTodo, { error: updateError }] = useUpdateTodoMutation();
+  const [toggleTodo, { error: updateError }] = useUpdateTodoStatusMutation();
 
-  /*const [removeTodo, { error: removeError }] = useDeleteTodoMutation({
-    update(cache, { data }) {
-      cache.modify({
-        fields: {
-          allTodos(currentTodos = []) {
-            return currentTodos.filter(
-              (todo) => todo.__ref !== `Todo:${data?.removeTodo?.id}`,
-            );
-          },
-        },
-      });
-    },
-  });*/
   const [removeTodo, { error: removeError }] = useDeleteTodoMutation({
     update(cache, { data }) {
       cache.modify({
         fields: {
-          allTodos(currentTodos: AllTodosQuery['todos']) {
-            return currentTodos?.filter(
-              // @ts-ignore
-              (todo) => todo?.__ref !== `Todo:${data?.removeTodo?.id}`,
-            );
+          allTodos(existingTodos: AllTodosQuery['todos'], { toReference }) {
+            return existingTodos?.filter((todo) => {
+              // (todo) => todo.__ref !== `Todo:${data?.removeTodo?.id}`
+              return todo && toReference(todo)?.__ref !== `Todo:${data?.removeTodo?.id}`;
+            });
           },
         },
       });
@@ -56,7 +43,7 @@ export const TodoList = () => {
   });
 
   if (loading) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   if (error || updateError || removeError) {

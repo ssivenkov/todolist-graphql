@@ -1,7 +1,7 @@
-import { DeleteTodoMutationFn, Todo, UpdateTodoMutationFn } from 'generated/schema';
+import { DeleteTodoMutationFn, Todo, UpdateTodoStatusMutationFn } from 'generated/schema';
 
 export type TodoItemPropsType = {
-  onToggle: UpdateTodoMutationFn;
+  onToggle: UpdateTodoStatusMutationFn;
   onDelete: DeleteTodoMutationFn;
 
   id?: Todo['id'];

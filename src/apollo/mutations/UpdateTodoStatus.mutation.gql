@@ -1,4 +1,4 @@
-mutation UpdateTodo($id: ID!, $completed: Boolean) {
+mutation UpdateTodoStatus($id: ID!, $completed: Boolean) {
   updateTodo(id: $id, completed:$completed) {
     id
     title
