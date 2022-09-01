@@ -1,7 +1,10 @@
 import { useState } from 'react';
 
+import Button from '@mui/material/Button';
 import { AllTodosDocument, useAddTodoMutation } from 'generated/schema';
 import { nanoid } from 'nanoid';
+
+import { StyledButtonContainer, StyledContainer } from './styles';
 
 export const AddTodo = () => {
   const [text, setText] = useState('');
@@ -36,11 +39,13 @@ export const AddTodo = () => {
   }
 
   return (
-    <div>
+    <StyledContainer>
       <input onChange={(event) => setText(event.target.value)} value={text} />
-      <button onClick={handleAddTodo} type='button'>
-        Add todo
-      </button>
-    </div>
+      <StyledButtonContainer>
+        <Button onClick={handleAddTodo} variant='contained'>
+          Add todo
+        </Button>
+      </StyledButtonContainer>
+    </StyledContainer>
   );
 };

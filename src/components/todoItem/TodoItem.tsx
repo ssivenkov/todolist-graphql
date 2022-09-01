@@ -1,4 +1,7 @@
-import { StyledContainer, StyledText } from './styles';
+import { Checkbox } from '@mui/material';
+import Button from '@mui/material/Button';
+
+import { StyledButtonContainer, StyledContainer, StyledText } from './styles';
 import { TodoItemPropsType } from './types';
 
 export const TodoItem = (props: TodoItemPropsType) => {
@@ -7,7 +10,7 @@ export const TodoItem = (props: TodoItemPropsType) => {
   if (id) {
     return (
       <StyledContainer>
-        <input
+        {/*<input
           checked={completed}
           onChange={() =>
             onToggle({
@@ -18,18 +21,31 @@ export const TodoItem = (props: TodoItemPropsType) => {
             })
           }
           type='checkbox'
-        />
-        <StyledText>{title}</StyledText>
-        <button
-          onClick={() =>
-            onDelete({
-              variables: { id },
+        />*/}
+        <Checkbox
+          checked={completed}
+          onChange={() =>
+            onToggle({
+              variables: {
+                id,
+                completed: !completed,
+              },
             })
           }
-          type='button'
-        >
-          Delete
-        </button>
+        />
+        <StyledText>{title}</StyledText>
+        <StyledButtonContainer>
+          <Button
+            onClick={() =>
+              onDelete({
+                variables: { id },
+              })
+            }
+            variant='contained'
+          >
+            Delete
+          </Button>
+        </StyledButtonContainer>
       </StyledContainer>
     );
   }

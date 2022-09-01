@@ -2,12 +2,7 @@ import styled from 'styled-components';
 
 export const StyledContainer = styled.div`
   display: flex;
-  align-items: center;
-  margin: 5px 0;
-`;
-
-export const StyledText = styled.span`
-  font-size: 20px;
+  margin-bottom: 10px;
 `;
 
 export const StyledButtonContainer = styled.div`
